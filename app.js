@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
-// const fs = require('fs');
-// const generatePage = require('./src/page-template.js');
+const fs = require('fs');
+const generatePage = require('./src/page-template.js');
 
 // const pageHTML = generatePage(name, github);
 
@@ -137,8 +137,63 @@ const promptProject = portfolioData => {
             }
         });
 }
-promptUser()
-    .then(promptProject)
-    .then(portfolioData => {
-        console.log(portfolioData);
-    });
+
+const mockData = {
+    name: 'Kerbunker',
+    github: 'kerbunker',
+    confirmAbout: true,
+    about: 'I am fed up with my current job and would love to find something more enjoyable.',
+    projects: [
+        {
+            name: 'Run Buddy',
+            description: 'A website to sign up for a trainer',
+            languages: ['HTML', 'CSS'],
+            link: 'https://github.com/kerbunker/run-buddy',
+            feature: true,
+            confirmAddProject: true
+        },
+        {
+            name: 'Taskinator',
+            description: 'Create tasks and assign them to to do, in progress, and done lists',
+            languages: ['JavaScript', 'jQuery', 'CSS', 'HTML', 'Bootstrap'],
+            link: 'https://github.com/kerbunker/taskinator',
+            featre: true,
+            confirmAddProject: true
+        },
+        {
+            name: 'Taskmaster Pro',
+            description:
+              'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.',
+            languages: ['JavaScript', 'jQuery', 'CSS', 'HTML', 'Bootstrap'],
+            link: 'https://github.com/kerbunker/taskmaster-pro',
+            feature: false,
+            confirmAddProject: true
+        },
+        {
+            name: 'Robot Gladiators',
+            description:
+              'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque.',
+            languages: ['JavaScript'],
+            link: 'https://github.com/kerbunker/robot-gladiators',
+            feature: false,
+            confirmAddProject: false
+        }
+        
+    ]
+};
+
+const pageHTML = generatePage(mockData);
+fs.writeFile('./index.html', pageHTML, err => {
+    if (err) throw err;
+});
+// promptUser()
+//     .then(promptProject)
+//     .then(portfolioData => {
+//         const pageHTML = generatePage(portfolioData);
+        
+//         fs.writeFile('./index.html', pageHTML, err => {
+//             if (err) throw err;
+
+//             console.log('Page created! Check out index.html in this directory to see it!');
+//         });
+//     });
