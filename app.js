@@ -157,7 +157,7 @@ const mockData = {
             description: 'Create tasks and assign them to to do, in progress, and done lists',
             languages: ['JavaScript', 'jQuery', 'CSS', 'HTML', 'Bootstrap'],
             link: 'https://github.com/kerbunker/taskinator',
-            featre: true,
+            feature: true,
             confirmAddProject: true
         },
         {
@@ -183,17 +183,34 @@ const mockData = {
 };
 
 const pageHTML = generatePage(mockData);
-fs.writeFile('./index.html', pageHTML, err => {
-    if (err) throw err;
+fs.writeFile('./dist/index.html', pageHTML, err => {
+    if (err) {
+        console.log(err);
+        return;
+    }
+    fs.copyFile('./src/style.css', './dist/style.css', err => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log('Style sheet copied successfully!');
+    });
 });
-// promptUser()
-//     .then(promptProject)
-//     .then(portfolioData => {
-//         const pageHTML = generatePage(portfolioData);
-        
-//         fs.writeFile('./index.html', pageHTML, err => {
-//             if (err) throw err;
-
-//             console.log('Page created! Check out index.html in this directory to see it!');
-//         });
-//     });
+promptUser()
+    .then(promptProject)
+    .then(portfolioData => {
+        return generatePage(portfolioData);
+    })
+    .then(pageHTML => {
+        return fs.writeFile(pageHTML);
+    })
+    .then(writeFileResponse => {
+        console.log(writeFileResponse);
+        return fs.copyFile();
+    })
+    .then(copyFileResponse => {
+        console.log(copyFileResponse);
+    })
+    .catch(err => {
+        console.log(err);
+    });
