@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const fs = require('fs');
+const { writeFile, copyFile } = require('./utils/generate-site.js');
 const generatePage = require('./src/page-template.js');
 
 // const pageHTML = generatePage(name, github);
@@ -138,75 +138,75 @@ const promptProject = portfolioData => {
         });
 }
 
-const mockData = {
-    name: 'Kerbunker',
-    github: 'kerbunker',
-    confirmAbout: true,
-    about: 'I am fed up with my current job and would love to find something more enjoyable.',
-    projects: [
-        {
-            name: 'Run Buddy',
-            description: 'A website to sign up for a trainer',
-            languages: ['HTML', 'CSS'],
-            link: 'https://github.com/kerbunker/run-buddy',
-            feature: true,
-            confirmAddProject: true
-        },
-        {
-            name: 'Taskinator',
-            description: 'Create tasks and assign them to to do, in progress, and done lists',
-            languages: ['JavaScript', 'jQuery', 'CSS', 'HTML', 'Bootstrap'],
-            link: 'https://github.com/kerbunker/taskinator',
-            feature: true,
-            confirmAddProject: true
-        },
-        {
-            name: 'Taskmaster Pro',
-            description:
-              'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.',
-            languages: ['JavaScript', 'jQuery', 'CSS', 'HTML', 'Bootstrap'],
-            link: 'https://github.com/kerbunker/taskmaster-pro',
-            feature: false,
-            confirmAddProject: true
-        },
-        {
-            name: 'Robot Gladiators',
-            description:
-              'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque.',
-            languages: ['JavaScript'],
-            link: 'https://github.com/kerbunker/robot-gladiators',
-            feature: false,
-            confirmAddProject: false
-        }
+// const mockData = {
+//     name: 'Kerbunker',
+//     github: 'kerbunker',
+//     confirmAbout: true,
+//     about: 'I am fed up with my current job and would love to find something more enjoyable.',
+//     projects: [
+//         {
+//             name: 'Run Buddy',
+//             description: 'A website to sign up for a trainer',
+//             languages: ['HTML', 'CSS'],
+//             link: 'https://github.com/kerbunker/run-buddy',
+//             feature: true,
+//             confirmAddProject: true
+//         },
+//         {
+//             name: 'Taskinator',
+//             description: 'Create tasks and assign them to to do, in progress, and done lists',
+//             languages: ['JavaScript', 'jQuery', 'CSS', 'HTML', 'Bootstrap'],
+//             link: 'https://github.com/kerbunker/taskinator',
+//             feature: true,
+//             confirmAddProject: true
+//         },
+//         {
+//             name: 'Taskmaster Pro',
+//             description:
+//               'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque. Nulla eget fringilla nulla. Integer gravida magna mi, id efficitur metus tempus et. Nam fringilla elit dapibus pellentesque cursus.',
+//             languages: ['JavaScript', 'jQuery', 'CSS', 'HTML', 'Bootstrap'],
+//             link: 'https://github.com/kerbunker/taskmaster-pro',
+//             feature: false,
+//             confirmAddProject: true
+//         },
+//         {
+//             name: 'Robot Gladiators',
+//             description:
+//               'Duis consectetur nunc nunc. Morbi finibus non sapien nec pharetra. Fusce nec dignissim orci, ac interdum ipsum. Morbi mattis justo sed commodo pellentesque.',
+//             languages: ['JavaScript'],
+//             link: 'https://github.com/kerbunker/robot-gladiators',
+//             feature: false,
+//             confirmAddProject: false
+//         }
         
-    ]
-};
+//     ]
+// };
 
-const pageHTML = generatePage(mockData);
-fs.writeFile('./dist/index.html', pageHTML, err => {
-    if (err) {
-        console.log(err);
-        return;
-    }
-    fs.copyFile('./src/style.css', './dist/style.css', err => {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        console.log('Style sheet copied successfully!');
-    });
-});
+// const pageHTML = generatePage(mockData);
+// fs.writeFile('./dist/index.html', pageHTML, err => {
+//     if (err) {
+//         console.log(err);
+//         return;
+//     }
+//     fs.copyFile('./src/style.css', './dist/style.css', err => {
+//         if (err) {
+//             console.log(err);
+//             return;
+//         }
+//         console.log('Style sheet copied successfully!');
+//     });
+// });
 promptUser()
     .then(promptProject)
     .then(portfolioData => {
         return generatePage(portfolioData);
     })
     .then(pageHTML => {
-        return fs.writeFile(pageHTML);
+        return writeFile(pageHTML);
     })
     .then(writeFileResponse => {
         console.log(writeFileResponse);
-        return fs.copyFile();
+        return copyFile();
     })
     .then(copyFileResponse => {
         console.log(copyFileResponse);
